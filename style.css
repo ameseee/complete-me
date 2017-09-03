@@ -1,0 +1,38 @@
+* {
+  font-family: 'Raleway', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(assets/road.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+h1 {
+  margin: 100px 0 20px 0;
+  color: #fefff7;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 2px 2px 4px #090837;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#input-field {
+  height: 40px;
+  margin-right: 10px;
+  padding: 5px;
+  width: 200px;
+  font-size: 18px;
+  outline-color: #090837;
+  text-align: center;
+}
