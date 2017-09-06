@@ -35,7 +35,25 @@ class Trie {
   }
 
   suggest() {
+    let suggestions = [];
+    let maxWords = 10;
 
+    //check that they entered something!
+    if (typeof input !== 'string' || input === '') {
+      return 'Input a string';
+    }
+
+    //get currentNode somehow
+
+    if (!currentNode) {
+      return 'No suggestions available';
+    }
+
+    if (currentNode = completeWord) {
+      //push that input into suggestions array//do something to slice 0-10 before returning that array
+    }
+    //don't let it suggest more than 10 words
+    //put matches into an array
   }
 
   select() {

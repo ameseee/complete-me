@@ -2,6 +2,20 @@ import { assert } from 'chai';
 import Trie from '../scripts/Trie';
 import fs from 'fs';
 
+const text = "/usr/share/dict/words";
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+
+describe('POPULATE', () => {
+
+  it('should import words from the dictionary', () => {
+    let completion = new Trie();
+
+    completion.populate(dictionary);
+    assert.equal(completion.count, 235886);
+  });
+
+});
+
 describe('INSERT', () => {
 
   let completion;
@@ -65,7 +79,7 @@ describe('INSERT', () => {
 
 });
 
-describe('COUNTWORDS', () => {
+describe('COUNT WORDS', () => {
 
   it('should increment counter', () => {
     let completion = new Trie();
@@ -94,20 +108,21 @@ describe('SELECT', () => {
   it.skip('prioritize words that have already been selected', () => {
     let completion = new Trie();
 
-  });
-
-});
-
-describe('POPULATE', () => {
-
-  it('should import words from the dictionary', () => {
-    let completion = new Trie();
-    const text = "/usr/share/dict/words";
-    let dictionary = fs.readFileSync(text).toString().trim().split('\n');
-
     completion.populate(dictionary);
-    assert.equal(completion.count, 235886);
+    completion.select('macaroni');
+    let suggest = completion.suggest("macar");
 
+    assert.deepEqual(suggest, [
+      "macaroni",
+      "macarena",
+      "macaronesia",
+      "macaronesian",
+      "macaroni cheese",
+      "macaroni penguin",
+      "macaronic",
+      "macaroon"
+    ]
+    );
   });
 
 });
