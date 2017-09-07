@@ -2,7 +2,8 @@ class Node {
   constructor(letter = null) {
     this.letter = letter;
     this.children = {};
-    this.completeWord = false;
+    this.isCompleteWord = false;
+    this.frequency = 0;
   }
 
 }

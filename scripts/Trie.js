@@ -2,7 +2,7 @@ import Node from './Node';
 
 class Trie {
   constructor() {
-    this.head = new Node;
+    this.root = new Node;
     this.count = 0;
   }
 
@@ -14,16 +14,20 @@ class Trie {
 
   insert(data) {
     let splitData = [...data.toLowerCase()];
-    let currentNode = this.head;
+    let currentNode = this.root;
 
-    splitData.forEach((letter, i, array) => {
+    if (!this.root) {
+      this.root;
+    }
+
+    splitData.forEach((letter, i, word) => {
       if (!currentNode.children[letter]) {
         currentNode.children[letter] = new Node(letter);
       }
       currentNode = currentNode.children[letter];
 
-      if (i === array.length - 1) {
-        currentNode.completeWord = true;
+      if (i === word.length - 1) {
+        currentNode.isCompleteWord = true;
       }
     })
 
@@ -34,30 +38,67 @@ class Trie {
     return this.count;
   }
 
-  suggest() {
+  suggest(data) {
+    let input = data.toLowerCase();
+    let currentNode = this.findNode(input);
     let suggestions = [];
-    let maxWords = 10;
 
-    //check that they entered something!
-    if (typeof input !== 'string' || input === '') {
-      return 'Input a string';
+    if (currentNode === 'does not exist') {
+      return [];
     }
 
-    //get currentNode somehow
-
-    if (!currentNode) {
-      return 'No suggestions available';
+    if (!input) {
+      return 'you have to enter something!';
     }
 
-    if (currentNode = completeWord) {
-      //push that input into suggestions array//do something to slice 0-10 before returning that array
-    }
-    //don't let it suggest more than 10 words
-    //put matches into an array
+    this.findChildrenWords(input, currentNode, suggestions);
+
+    return suggestions.sort( (a, b) => {
+      return b.frequency - a.frequency;
+    }).reduce( (newArray, object) => {
+      newArray.push(object.word);
+      return newArray;
+    }, []);
   }
 
-  select() {
+  findNode(data) {
+    let currentNode = this.root;
+    let input = [...data];
 
+    input.forEach( letter => {
+      if (!currentNode.children[letter]) {
+        currentNode = 'does not exist';
+        return;
+      }
+      currentNode = currentNode.children[letter];
+    });
+
+    return currentNode;
+  }
+
+  findChildrenWords(data, currentNode, suggestions) {
+    let keys = Object.keys(currentNode.children);
+
+    keys.forEach( key => {
+      let completeWord = data + key;
+
+      if (currentNode.children[key].isCompleteWord === true) {
+        suggestions.push( {word: completeWord, frequency: currentNode.children[key].frequency} );
+      }
+
+      if (currentNode.children) {
+        this.findChildrenWords(completeWord, currentNode.children[key], suggestions);
+      }
+    })
+    return suggestions;
+  }
+
+  select(selection) {
+    const newString = [...selection];
+    let currentNode = this.root;
+    let node = this.findNode(newString, currentNode);
+
+    node.isCompleteWord ? node.frequency++ : null;
   }
 
 }
