@@ -1,25 +1,32 @@
+import Trie from '../scripts/Trie';
+
+export default Trie;
+
 // import Trie from './Trie.js';
 // import words from './words.json';
 //
 // const completion = new Trie();
+
+// const $input = $('#input-field');
+// const $suggestions = $('#suggestions');
 //
 // $(document).ready(function() {
 //   populate();
-//   $('#input-field').focus();
+//   $input.focus();
 // });
 //
-// $('#input-field').on('input', function() {
-//   if ($('#input-field').val() === '') {
-//     $('#suggestions').empty();
+// $input.on('input', function() {
+//   if ($input.val() === '') {
+//     $suggestions.empty();
 //   } else {
-//     $('#suggestions').empty();
+//     $suggestions.empty();
 //     filterList();
 //   }
 // });
 //
-// $('#suggestions').on('click', 'li', function(e) {
+// $suggestions.on('click', 'li', function(e) {
 //   select(e);
-//   $('#input-field').focus();
+//   $input.focus();
 // })
 //
 // function populate() {
@@ -27,12 +34,12 @@
 // }
 //
 // function filter() {
-//   let string = $('#input-field').val();
+//   let string = $input.val();
 //   $('li').remove();
 //   let suggestions = completion.suggest(string);
 //   for (let i = 0; i < 10 && suggestions.length; i++) {
 //     if (suggestions[i] !== undefined) {
-//       $('#suggestions').append(`<li>${suggestions[i]}</li>`)
+//       $suggestions.append(`<li>${suggestions[i]}</li>`)
 //     }
 //   }
 // }
@@ -41,6 +48,6 @@
 //   let selected = e.target.innerHTML.toLowerCase();
 //   completion.select(selected);
 //   filter();
-//   $('#input-field').val(selected);
-//   $('#suggestions').empty();
+//   $input.val(selected);
+//   $suggestions.empty();
 // }

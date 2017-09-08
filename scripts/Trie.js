@@ -20,18 +20,17 @@ class Trie {
       this.root;
     }
 
-    splitData.forEach((letter, i, word) => {
+    splitData.forEach((letter) => {
       if (!currentNode.children[letter]) {
         currentNode.children[letter] = new Node(letter);
       }
       currentNode = currentNode.children[letter];
+    });
 
-      if (i === word.length - 1) {
-        currentNode.isCompleteWord = true;
-      }
-    })
-
-    this.count++;
+    if (!currentNode.isCompleteWord) {
+      currentNode.isCompleteWord = true
+      this.count++;
+    }
   }
 
   countWords() {
