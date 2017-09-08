@@ -1,4 +1,4 @@
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 import Trie from '../scripts/Trie';
 import fs from 'fs';
 
@@ -7,11 +7,11 @@ const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 describe('POPULATE', () => {
 
-  it.skip('should import words from the dictionary', () => {
+  it('should import words from the dictionary', () => {
     let completion = new Trie();
 
     completion.populate(dictionary);
-    assert.equal(completion.count, 235886);
+    assert.equal(completion.count, 234371);
   });
 
 });
@@ -77,7 +77,7 @@ describe('INSERT', () => {
                                 .children.e.isCompleteWord, true);
   });
 
-  it.skip('should XYZ when you try to insert a word that already exists', () => {
+  it('should not increment count when you try to insert a word that already exists', () => {
     let completion = new Trie();
 
     completion.insert('macaroni');
@@ -118,16 +118,15 @@ describe('SUGGEST', () => {
     assert.deepEqual(newSnack, []);
   });
 
-  it.skip('should suggest a word - with entire dictionary', () => {
+  it('should suggest a word - with entire dictionary', () => {
     let completion = new Trie();
-    let suggestPiz = completion.suggest("piz");
 
     completion.populate(dictionary);
-    assert.deepEqual(suggestPiz,
+    assert.deepEqual(completion.suggest("piz"),
                      ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]);
     completion.select('pizzeria');
     completion.suggest("piz");
-    assert.deepEqual(suggestPiz,
+    assert.deepEqual(completion.suggest("piz"),
                      ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]);
   });
 
@@ -151,11 +150,11 @@ describe('SELECT', () => {
 
     completion.populate(['pize', 'pizza', 'pizzeria', 'pizzicato', 'pizzle']);
 
-    assert.deepEqual(completion.suggest('piz'), ['pize', 'pizza', 'pizzeria',
-      'pizzicato', 'pizzle']);
+    assert.deepEqual(completion.suggest('piz'),
+                     ['pize', 'pizza', 'pizzeria', 'pizzicato', 'pizzle']);
     completion.select('pizzeria');
-    assert.deepEqual(completion.suggest('piz'), ['pizzeria', 'pize', 'pizza',
-      'pizzicato', 'pizzle']);
+    assert.deepEqual(completion.suggest('piz'),
+                    ['pizzeria', 'pize', 'pizza', 'pizzicato', 'pizzle']);
 
   });
 
