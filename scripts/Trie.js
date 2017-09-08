@@ -12,8 +12,8 @@ class Trie {
     })
   }
 
-  insert(data) {
-    let splitData = [...data.toLowerCase()];
+  insert(word) {
+    let splitData = [...word.toLowerCase()];
     let currentNode = this.root;
 
     if (!this.root) {
@@ -88,7 +88,7 @@ class Trie {
       if (currentNode.children) {
         this.findChildrenWords(completeWord, currentNode.children[key], suggestions);
       }
-    })
+    });
     return suggestions;
   }
 

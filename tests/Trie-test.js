@@ -17,7 +17,6 @@ describe('POPULATE', () => {
 });
 
 describe('INSERT', () => {
-
   let completion;
 
   beforeEach( () => {
@@ -84,15 +83,28 @@ describe('INSERT', () => {
     assert.equal(completion.count, 1);
     completion.insert('macaroni');
     assert.equal(completion.count, 1);
-
   });
 
 });
 
 describe('SUGGEST', () => {
+  let completion;
+
+  beforeEach( () => {
+    completion = new Trie();
+  });
+
+  it('should not return anything when they enter a prefix that does not exist', () => {
+
+    completion.insert('mango');
+    completion.insert('coconut');
+    completion.insert('almonds');
+    completion.insert('chips');
+
+    assert.deepEqual(completion.suggest('ca'), []);
+  });
 
   it('should suggest a word', () => {
-    let completion = new Trie();
 
     completion.insert('climb');
     completion.insert('clam');
@@ -102,46 +114,30 @@ describe('SUGGEST', () => {
     completion.insert('carry');
 
     assert.deepEqual(completion.suggest('cli'),
-    [ 'climb', 'climber', 'clip', 'clinic' ] );
-  });
-
-  it('should not return anything when they enter a prefix that does not exist', () => {
-    let completion = new Trie();
-
-    completion.insert('mango');
-    completion.insert('coconut');
-    completion.insert('almonds');
-    completion.insert('chips');
-
-    let newSnack = completion.suggest('ca');
-
-    assert.deepEqual(newSnack, []);
+                     [ 'climb', 'climber', 'clip', 'clinic' ] );
   });
 
   it('should suggest a word - with entire dictionary', () => {
-    let completion = new Trie();
 
     completion.populate(dictionary);
     assert.deepEqual(completion.suggest("piz"),
-                     ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]);
+                     [ "pize", "pizza", "pizzeria", "pizzicato", "pizzle" ]);
     completion.select('pizzeria');
     completion.suggest("piz");
     assert.deepEqual(completion.suggest("piz"),
-                     ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]);
+                     [ "pizzeria", "pize", "pizza", "pizzicato", "pizzle" ]);
   });
 
   it('should not be case sensitive', () => {
-    let completion = new Trie();
 
     completion.insert('macaroni');
     completion.insert('macaroon');
 
     assert.deepEqual(completion.suggest('MaC'),
-    [ 'macaroni', 'macaroon'] );
+    [ 'macaroni', 'macaroon' ] );
   });
 
 });
-
 
 describe('SELECT', () => {
 
